@@ -4,7 +4,8 @@ CREATE TABLE "notifications" (
     "recipient_id" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "category" TEXT NOT NULL,
-    "read_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "read_at" TIMESTAMP(3),
+    "canceled_at" TIMESTAMP(3),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "notifications_pkey" PRIMARY KEY ("id")
