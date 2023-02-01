@@ -19,6 +19,10 @@ export class ReadNotification implements ReadNotificationUseCase {
       throw new NotificationNotFound();
     }
 
+    if (notification.canceledAt) {
+      throw new Error("This notification has been canceled.");
+    }
+
     notification.read();
 
     await this._notificationsRepository.save(notification);
