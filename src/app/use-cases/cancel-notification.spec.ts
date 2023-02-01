@@ -1,19 +1,15 @@
 import { randomUUID } from "node:crypto";
 import { InMemoryNotificationsRepository } from "@test/repositories/in-memory-notifications.repository";
-import { Notification } from "@/domain/entities/notification";
-import { NotificationContent } from "@/domain/entities/value-objects/notification-content";
+import { makeNotification } from "@test/factories/notification.factory";
 import { CancelNotification } from "./cancel-notification";
+import { NotificationNotFound } from "../helpers/errors/notification-not-found";
 
 describe("Cancel Notification", () => {
   it("should be able to cancel a notification", async () => {
     const notificationsRepository = new InMemoryNotificationsRepository();
     const cancelNotification = new CancelNotification(notificationsRepository);
 
-    const notification = new Notification({
-      content: new NotificationContent("This is a notification"),
-      category: "Social",
-      recipientId: randomUUID(),
-    });
+    const notification = makeNotification();
 
     await notificationsRepository.create(notification);
 
@@ -24,5 +20,16 @@ describe("Cancel Notification", () => {
     expect(notificationsRepository.notifications[0].canceledAt).toEqual(
       expect.any(Date),
     );
+  });
+
+  it("should not be able to cancel a notification when it does not exist", async () => {
+    const notificationsRepository = new InMemoryNotificationsRepository();
+    const cancelNotification = new CancelNotification(notificationsRepository);
+
+    expect(async () => {
+      return await cancelNotification.execute({
+        notificationId: randomUUID(),
+      });
+    }).rejects.toThrow(NotificationNotFound);
   });
 });
