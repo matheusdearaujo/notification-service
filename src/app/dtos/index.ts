@@ -6,3 +6,4 @@ export * from "./count-recipient-notifications-response.dto";
 export * from "./get-recipient-notifications-request.dto";
 export * from "./get-recipient-notifications-response.dto";
 export * from "./read-notification-request.dto";
+export * from "./unread-notification-request.dto";
