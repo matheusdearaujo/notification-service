@@ -32,4 +32,19 @@ describe("Cancel Notification", () => {
       });
     }).rejects.toThrow(NotificationNotFound);
   });
+
+  it("should not be able to read a notification when it has been readed", async () => {
+    const notificationsRepository = new InMemoryNotificationsRepository();
+    const cancelNotification = new CancelNotification(notificationsRepository);
+
+    const notification = makeNotification({ readAt: new Date() });
+
+    await notificationsRepository.create(notification);
+
+    expect(async () => {
+      return await cancelNotification.execute({
+        notificationId: notification.id,
+      });
+    }).rejects.toThrow("This notification has been readed.");
+  });
 });
