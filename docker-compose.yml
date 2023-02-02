@@ -7,8 +7,6 @@ services:
     #     container_name: notification-service
     #     depends_on:
     #         - notification-service-db
-    #     ports:
-    #         - 5001:5000
     #     networks:
     #         - notificationservicenet
 

@@ -11,6 +11,6 @@ COPY --chown=node:node . .
 RUN npm install && \
     npm run build
 
-EXPOSE 5000
+EXPOSE 3005
 
 CMD [ "npm", "run", "start:prod" ]
