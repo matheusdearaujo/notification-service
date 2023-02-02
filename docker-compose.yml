@@ -28,3 +28,42 @@ services:
 networks:
   notificationservicenet:
       driver: bridge
+
+    # notification-service-zookeeper:
+    #     image: bitnami/zookeeper:latest
+    #     container_name: notification-service-zookeeper
+    #     ports:
+    #         - 2181:2181
+    #     volumes:
+    #         - zookeeper_data:/bitnami/zookeeper
+    #     environment:
+    #         - ALLOW_ANONYMOUS_LOGIN=yes
+    #     networks:
+    #         - notificationservicenet
+
+    # notification-service-kafka:
+    #     image: bitnami/kafka:latest
+    #     container_name: notification-service-kafka
+    #     ports:
+    #         - 9092:9092
+    #     volumes:
+    #         - kafka_data:/bitnami/kafka
+    #     depends_on:
+    #         - notification-service-zookeeper
+    #     environment:
+    #         - KAFKA_BROKER_ID=1
+    #         - KAFKA_CFG_ZOOKEEPER_CONNECT=notification-service-zookeeper:2181
+    #         - ALLOW_PLAINTEXT_LISTENER=yes
+    #         - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+    #         - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+    #         - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://notification-service-kafka:29092
+    #     networks:
+    #         - notificationservicenet
+
+
+
+# volumes:
+#   zookeeper_data:
+#     driver: local
+#   kafka_data:
+#     driver: local
